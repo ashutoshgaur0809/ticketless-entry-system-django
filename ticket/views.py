@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from email_validator import validate_email, EmailNotValidError
 from .constants import EMAIL_ALREADY_EXIST, PASSWORD_INVALID, SUCCESS, YOU_ARE_NOT_REGISTERED
 from .library import isEmpty
-from .models import Users
+from .models import Booking, Users
 from passlib.hash import sha256_crypt
 
 # Create your views here.
@@ -19,6 +19,52 @@ def signup(request):
 
 def main(request):
     return render(request, 'main.html')
+
+def booking_confirmation(request):
+    if request.method != 'POST':
+        return
+    placename = request.POST.get("placename")
+    num_of_visitors = request.POST.get("num_of_visitors")
+    timeSlot = request.POST.get("timeSlot")
+
+    if isEmpty(placename):
+        new_data={'data': {}, 'message': 'Please enter Placename', 'status': 0}
+        return JsonResponse(new_data)
+
+    if isEmpty(num_of_visitors):
+        new_data={'data': {}, 'message': 'Please enter number of visitors', 'status': 0}
+        return JsonResponse(new_data)
+
+    if isEmpty(timeSlot):
+        new_data={'data': {}, 'message': 'Please enter the timeslot', 'status': 0}
+        return JsonResponse(new_data)
+
+    if timeSlot == "05":
+        timeSlotValue = "05PM - 07PM"
+    elif timeSlot == "12":
+        timeSlotValue = "12PM - 01PM"
+    else:
+        timeSlotValue = "10AM - 11AM"
+
+    try:
+        # print("User entered data->", placename, num_of_visitors, timeSlotValue)
+        data = Booking(placename=placename, number_of_visitors=num_of_visitors, time_slot=timeSlotValue)
+        data.save()
+        new_data = {'data': {}, 'message': "Thank you!", 'status': 1}
+        return JsonResponse(new_data)
+    except Exception as e:
+        print(e)
+
+def contact_us(request):
+    if request.method != 'POST':
+        return
+    e_name = request.POST.get("e_name")
+    e_mail = request.POST.get("e_mail")
+    e_name = request.POST.get("e_name")
+    e_subject = request.POST.get("e_subject")
+    e_textarea = request.POST.get("e_textarea")
+    new_data = {'data': {}, 'message': "Thank you for contacting us! \nWe will revert back to you shortly!", 'status': 1}
+    return JsonResponse(new_data)
 
 def login_validation(request):
     if request.method != 'POST':

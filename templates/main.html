@@ -68,22 +68,23 @@
 				<img src="{% static 'image/book-img.svg' %}" alt="">
 			</div>
 
-			<form action="">
+			<form id="bookForm" enctype="multipart/form-data">
+				{% csrf_token %}
 				<div class="inputBox">
 					<h3>where to</h3>
-					<input type="text" placeholder="Place name" class="form-control">
+					<input type="text" placeholder="Place name" id="placename" name="placename" class="form-control">
 				</div>
 				<div class="inputBox">
 					<h3>how many</h3>
-					<input type="number" placeholder="Number of Visitors" class="form-control">
+					<input type="number" placeholder="Number of Visitors" id="num_of_visitors" name="num_of_visitors" class="form-control">
 				</div>
 
 				<div class="inputBox">
 					<h3>Time Slot</h3>
-					<select name="timeSlot" class="form-control">
-						<option value="1">10AM - 11AM</option>
-						<option value="2">12PM - 01PM</option>
-						<option value="3">05PM - 07PM</option>
+					<select class="form-control" id="timeSlot" name="timeSlot">
+						<option value="10">10AM - 11AM</option>
+						<option value="12">12PM - 01PM</option>
+						<option value="05">05PM - 07PM</option>
 					</select>
 				</div>
 
@@ -217,16 +218,17 @@
 				<img src="{% static 'image/contact-img.svg' %}" alt="">
 			</div>
 
-			<form action="">
+			<form id="emailForm" enctype="multipart/form-data">
+				{% csrf_token %}
 				<div class="inputBox">
-					<input type="text" placeholder="name">
-					<input type="email" placeholder="email">
+					<input type="text" id="e-name" name="e_name" placeholder="name">
+					<input type="email" id="e-mail" name="e_mail" placeholder="email">
 				</div>
 				<div class="inputBox">
-					<input type="number" placeholder="number">
-					<input type="text" placeholder="subject">
+					<input type="number" placeholder="number" id="e-number" name="e_name">
+					<input type="text" placeholder="subject" id="e-subject" name="e_subject">
 				</div>
-				<textarea placeholder="message" name="" id="" cols="30" rows="10"></textarea>
+				<textarea placeholder="message" name="e_textarea" id="e-textarea" cols="30" rows="10"></textarea>
 				<input type="submit" class="btn" value="send message">
 			</form>
 
