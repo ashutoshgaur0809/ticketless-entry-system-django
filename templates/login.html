@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}<link rel="stylesheet" href="{% static 'css/login.css' %}">{% endblock %}
+
+{% block content %}
+<div class="d-flex align-items-center justify-content-center mt-2">
+  <div class="alert alert-dismissible fade d-none" id="messageContainer" role="alert">
+      <strong id="message"></strong>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+</div>
+
+<body class="text-center flex-column">
+    
+    <main class="form-signin w-100 m-auto">
+      <form id="loginForm" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+    
+        <div class="form-floating">
+          <input type="text" class="form-control" id="email" name="email" placeholder="name@example.com">
+          <label for="email">Email address</label>
+          <span class="error" id="email_error"></span>
+        </div>
+        <div class="form-floating">
+          <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+          <label for="password">Password</label>
+          <span class="error" id="password_error"></span>
+        </div>
+    
+        <div class="mb-2">
+            <span class="d-flex align-items-center">Not registered? <a class="btn no-border text-primary" href="/signup/">Sign up</a></span>
+        </div>
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+        <div class="mt-2">
+            <small class="d-flex align-items-center"><a class="btn no-border text-primary go-back" href="/">Home</a></small>
+        </div>
+      </form>
+    </main>
+	
+</body>
+{% endblock %}
+
+{% block js %}
+<script>
+    const EMAIL_REGEX = /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/
+    const isEmpty = item => item == '';
+
+    const errorMessage = (bootstrapClass, message, isPasswordField=false) => {
+        $(isPasswordField ? '#password_error' : '#email_error').addClass(bootstrapClass).html(message);
+    };
+
+    const showErrorField = (isPasswordField=false) => {
+        $(isPasswordField ? '#password_error' : '#email_error').removeClass('d-none').addClass('d-block');
+    };
+
+    const hideErrorField = (isPasswordField=false) => {
+        $(isPasswordField ? '#password_error' : '#email_error').addClass('d-none').removeClass('d-block');
+    };
+
+    $(document).ready(()=>{
+        hideErrorField();
+        $(document).on("submit", '#loginForm', (e)=> {
+            e.preventDefault();
+            var email = $("#email").val();
+            var password = $("#password").val();
+            $(".error").html('');
+            let is_error = '';
+
+            if(isEmpty(email)) { // error case
+                is_error = 'yes';
+                showErrorField();
+                errorMessage('text-danger', 'Please enter email address');
+                return;
+            }
+
+            if(isEmpty(password)) { // error case
+                is_error = 'yes';
+                showErrorField(true);
+                errorMessage('text-danger', 'Please enter the password', true);
+                return;
+            }
+
+            if(password.length < 6) { // error case
+                is_error = 'yes';
+                showErrorField(true);
+                errorMessage('text-danger', 'Password length should be at least 6 characters', true);
+                return;
+            }
+
+            if(!email.match(EMAIL_REGEX)) { // error case
+              is_error = 'yes';
+              showErrorField();
+              errorMessage('text-danger', 'The email address in not valid');
+              return;
+            }
+
+            if(email.match(EMAIL_REGEX)) { // the input is an email address - success case
+                is_error = ''
+                hideErrorField();
+            }
+
+            if(is_error == '') {
+                var formData = new FormData(document.getElementById("loginForm"));
+                $.ajax({
+                    url: '/login_validation/',
+                    type: 'post',
+                    data: formData,
+                    contentType:false,
+                    processData: false,
+                    beforeSend: function() {
+                        alert("Please wait...");
+                    },
+                    success: function (data) {
+                        console.log(data.message);
+                        if(data.status !== 1) {
+                            $('#messageContainer').removeClass('d-none').addClass('d-block show alert-danger');
+                            $('#message').addClass('text-danger').html(data.message);
+                            setTimeout(()=>{
+                                $('#messageContainer').removeClass('show d-block show alert-danger').addClass('d-none');
+                                $('.message').removeClass('text-danger').html('');
+                            }, 3000)
+                            return;
+                        }
+                        alert("Login successful!");
+                        window.location.href = '/main/';
+                    }
+                })
+            }
+        })
+    })
+</script>
+{% endblock %}

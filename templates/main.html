@@ -1,0 +1,270 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}<link rel="stylesheet" href="{% static 'css/main.css' %}">{% endblock %}
+
+{% block content %}
+	<!-- header section starts  -->
+
+	<header>
+
+		<div id="menu-bar" class="fas fa-bars"></div>
+
+		<a href="#" class="logo"><span>T</span>ravel <small style="font-size: 1.35rem">without ticket</small></a>
+
+		<nav class="navbar">
+			<a href="#home">home</a>
+			<a href="#book">book</a>
+			<a href="#services">services</a>
+			<a href="#gallery">gallery</a>
+			<a href="#contact">contact</a>
+		</nav>
+
+	</header>
+
+	<!-- header section ends -->
+
+	<!-- home section starts  -->
+
+	<section class="home" id="home">
+
+		<div class="content">
+			<h3>Travel without Ticket</h3>
+			<p>dicover new places with us</p>
+			<a href="#" class="btn">discover more</a>
+		</div>
+
+		<div class="controls">
+			<span class="vid-btn active" data-src="{% static 'video/vid-1.mp4' %}"></span>
+			<span class="vid-btn" data-src="{% static 'video/vid-2.mp4' %}"></span>
+		</div>
+
+		<div class="video-container">
+			<video src="{% static 'video/vid-1.mp4' %}" id="video-slider" loop autoplay muted></video>
+		</div>
+
+	</section>
+
+	<!-- home section ends -->
+
+	<!-- book section starts  -->
+
+	<section class="book" id="book">
+
+		<h1 class="heading">
+			<span>b</span>
+			<span>o</span>
+			<span>o</span>
+			<span>k</span>
+			<span class="space"></span>
+			<span>n</span>
+			<span>o</span>
+			<span>w</span>
+		</h1>
+
+		<div class="row">
+
+			<div class="image">
+				<img src="{% static 'image/book-img.svg' %}" alt="">
+			</div>
+
+			<form action="">
+				<div class="inputBox">
+					<h3>where to</h3>
+					<input type="text" placeholder="Place name" class="form-control">
+				</div>
+				<div class="inputBox">
+					<h3>how many</h3>
+					<input type="number" placeholder="Number of Visitors" class="form-control">
+				</div>
+
+				<div class="inputBox">
+					<h3>Time Slot</h3>
+					<select name="timeSlot" class="form-control">
+						<option value="1">10AM - 11AM</option>
+						<option value="2">12PM - 01PM</option>
+						<option value="3">05PM - 07PM</option>
+					</select>
+				</div>
+
+				<div class="inputBox">
+					<h3>ID Proof</h3>
+					<select name="idproof" id="idproof" class="form-control">
+						<option value="aadhar">AADHAR CARD</option>
+						<option value="driving_license">DRIVING LICENSE</option>
+						<option value="pan_card">PAN CARD</option>
+					</select>
+				</div>
+				<input type="submit" class="btn" value="book now">
+			</form>
+
+		</div>
+
+	</section>
+
+	<!-- book section ends -->
+
+	<!-- services section starts  -->
+
+	<section class="services" id="services">
+
+		<h1 class="heading">
+			<span>s</span>
+			<span>e</span>
+			<span>r</span>
+			<span>v</span>
+			<span>i</span>
+			<span>c</span>
+			<span>e</span>
+			<span>s</span>
+		</h1>
+
+		<div class="box-container container">
+
+			<div class="box">
+				<i class="fas fa-diagram-predecessor"></i>
+				<h3>Reduce booking efforts</h3>
+				<p>Simplify Your Booking Process: How to Reduce Efforts and Boost Customer Satisfaction</p>
+			</div>
+			<div class="box">
+				<i class="fas fa-clipboard"></i>
+				<h3>Better record of vistors</h3>
+				<p>Creating a Comprehensive Visitor Registry: Best Practices for Maintaining Accurate Visitor Records</p>
+			</div>
+			<div class="box">
+				<i class="fas fa-bullhorn"></i>
+				<h3>Predict Crowd</h3>
+				<p>Strategies for Crowd Management: Tips for Predicting Crowds and Keeping Your Event Safe and Organized</p>
+			</div>
+			<div class="box">
+				<i class="fas fa-wheelchair-move"></i>
+				<h3>Book for handicapped people</h3>
+				<p>Creating an Inclusive Booking Experience: How to Accommodate the Needs of Handicapped Individuals</p>
+			</div>
+		</div>
+
+	</section>
+
+	<!-- services section ends -->
+
+	<!-- gallery section starts  -->
+
+	<section class="gallery" id="gallery">
+
+		<h1 class="heading">
+			<span>g</span>
+			<span>a</span>
+			<span>l</span>
+			<span>l</span>
+			<span>e</span>
+			<span>r</span>
+			<span>y</span>
+		</h1>
+
+		<div class="box-container">
+
+			<div class="box">
+				<img src="{% static 'image/g-1.jpg' %}" alt="">
+			</div>
+			<div class="box">
+				<img src="{% static 'image/g-2.jpg' %}" alt="">
+			</div>
+			<div class="box">
+				<img src="{% static 'image/g-3.jpg' %}" alt="">
+			</div>
+			<div class="box">
+				<img src="{% static 'image/g-4.jpg' %}" alt="">
+			</div>
+			<div class="box">
+				<img src="{% static 'image/g-5.jpg' %}" alt="">
+			</div>
+			<div class="box">
+				<img src="{% static 'image/g-6.jpg' %}" alt="">
+			</div>
+			<div class="box">
+				<img src="{% static 'image/g-7.jpg' %}" alt="">
+			</div>
+			<div class="box">
+				<img src="{% static 'image/g-8.jpg' %}" alt="">
+			</div>
+			<div class="box">
+				<img src="{% static 'image/g-9.jpg' %}" alt="">
+			</div>
+
+		</div>
+
+	</section>
+
+	<!-- gallery section ends -->
+
+	<!-- contact section starts  -->
+
+	<section class="contact" id="contact">
+
+		<h1 class="heading">
+			<span>c</span>
+			<span>o</span>
+			<span>n</span>
+			<span>t</span>
+			<span>a</span>
+			<span>c</span>
+			<span>t</span>
+		</h1>
+
+		<div class="row">
+
+			<div class="image">
+				<img src="{% static 'image/contact-img.svg' %}" alt="">
+			</div>
+
+			<form action="">
+				<div class="inputBox">
+					<input type="text" placeholder="name">
+					<input type="email" placeholder="email">
+				</div>
+				<div class="inputBox">
+					<input type="number" placeholder="number">
+					<input type="text" placeholder="subject">
+				</div>
+				<textarea placeholder="message" name="" id="" cols="30" rows="10"></textarea>
+				<input type="submit" class="btn" value="send message">
+			</form>
+
+		</div>
+
+	</section>
+
+	<!-- contact section ends -->
+
+	<!-- footer section  -->
+
+	<section class="footer">
+
+		<div class="box-container">
+
+			<div class="box">
+				<h3>about us</h3>
+				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda quas magni pariatur est accusantium
+					voluptas enim nemo facilis sit debitis.</p>
+			</div>
+			<div class="box">
+				<h3>quick links</h3>
+				<a href="#">home</a>
+				<a href="#book">book</a>
+				<a href="#services">services</a>
+				<a href="#gallery">gallery</a>
+				<a href="#contact">contact</a>
+			</div>
+
+		</div>
+
+		<h1 class="credit"> created by <span> Software chasers </span></h1>
+
+	</section>
+
+{% endblock %}
+
+{% block js %}
+	<!-- custom js file link  -->
+	<script src="{% static 'js/main.js' %}"></script>
+{% endblock %}

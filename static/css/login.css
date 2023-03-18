@@ -1,0 +1,62 @@
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #f5f5f5;
+}
+
+a.btn.no-border {
+    border: 0;
+}
+
+small a.btn.go-back {
+    font-size: .875em;
+}
+
+.form-signin, .form-signup {
+  max-width: 330px;
+  padding: 15px;
+}
+
+.form-signin .form-floating:focus-within, .form-signup .form-floating:focus-within {
+  z-index: 2;
+}
+
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.form-signup input {
+    margin-bottom: -1px;
+}
+
+.form-signup input[type="text"] {
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.form-signup input[type="email"], .form-signup input[type="password"] {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+}
+
+.form-signup #conf_password {
+    border-bottom-right-radius: .375rem;
+    border-bottom-left-radius: .375rem;
+}

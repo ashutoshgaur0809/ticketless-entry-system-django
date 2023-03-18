@@ -1,0 +1,190 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}<link rel="stylesheet" href="{% static 'css/login.css' %}">{% endblock %}
+
+{% block content %}
+<div class="d-flex align-items-center justify-content-center mt-2">
+  <div class="alert alert-dismissible fade d-none" id="messageContainer" role="alert">
+      <strong id="message"></strong>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+</div>
+
+<body class="text-center flex-column">
+    
+    <main class="form-signup w-100 m-auto">
+      <form id="signupForm" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h1 class="h3 mb-3 fw-normal">Sign Up</h1>
+    
+        <div class="form-floating">
+          <input type="text" class="form-control" id="name" name="name" placeholder="Name">
+          <label for="floatingInput">Name</label>
+          <span class="error" id="name_error"></span>
+        </div>
+        <div class="form-floating">
+          <input type="text" class="form-control" id="email" name="email" placeholder="Email address">
+          <label for="email">Email address</label>
+          <span class="error" id="email_error"></span>
+        </div>
+        <div class="form-floating">
+          <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+          <label for="password">Password</label>
+          <span class="error" id="password_error"></span>
+        </div>
+        <div class="form-floating">
+            <input type="password" class="form-control" id="conf_password" name="conf_password" placeholder="Confirm Password">
+            <label for="password">Confirm Password</label>
+            <span class="error" id="conf_password_error"></span>
+        </div>
+    
+        <div class="mb-2">
+            <span class="d-flex align-items-center">Already registered? <a class="btn no-border text-primary" href="/login/">Sign in</a></span>
+        </div>
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Sign up</button>
+        <div class="mt-2">
+            <small class="d-flex align-items-center"><a class="btn no-border text-primary go-back" href="/">Home</a></small>
+        </div>
+      </form>
+    </main>
+	
+</body>
+{% endblock %}
+
+{% block js %}
+<script>
+    const PHONE_REGEX = /^\d{10}$/;
+    const EMAIL_REGEX = /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/
+
+    const NOT_A_PHONE_REGEX = /^[a-zA-Z]+/
+
+    const isEmpty = item => item == '';
+
+    const errorMessage = (fieldId, bootstrapClass, message) => {
+        $(fieldId).addClass(bootstrapClass).html(message);
+    };
+
+    const showErrorField = (fieldId) => {
+        $(fieldId).removeClass('d-none').addClass('d-block');
+    };
+
+    const hideErrorField = (fieldId) => {
+        $(fieldId).addClass('d-none').removeClass('d-block');
+    };
+
+    const reloadPage = (message) => {
+        console.log(message);
+        alert(message);
+        window.location.reload();
+    }
+
+    const show_Password = () => {
+        var x = document.getElementById("pass");
+        var y = document.getElementById("conf_pass");
+        x.type === "password" ? x.type = 'text' : x.type = 'password';
+        y.type === "password" ? y.type = 'text' : y.type = 'password';
+    }
+
+    $(document).ready(()=>{
+        $(document).on("submit", '#signupForm', (e)=> {
+            e.preventDefault();
+            var name = $("#name").val();
+            var email = $("#email").val();
+            var password = $("#password").val();
+            var confirm_password = $("#conf_password").val();
+            $(".error").html('');
+            let is_error = '';
+
+            if(isEmpty(name)) { // error case
+                is_error = 'yes';
+                showErrorField('#name_error');
+                errorMessage('#name_error', 'text-danger', 'Please enter the full name');
+                return;
+            }
+
+            /*if(phone.match(NOT_A_PHONE_REGEX)) {
+                is_error = 'yes';
+                showErrorField('#phone_error');
+                errorMessage('#phone_error', 'text-danger', 'Phone number can only contain digits');
+                return;
+            }
+
+            if(phone.length < 10) {
+                is_error = 'yes';
+                showErrorField('#phone_error');
+                errorMessage('#phone_error', 'text-danger', 'Phone number length should be 10 digits');
+                return;
+            } */
+
+            if(isEmpty(email)) { // error case
+                is_error = 'yes';
+                showErrorField('#email_error');
+                errorMessage('#email_error', 'text-danger', 'Please enter the email');
+                return;
+            }
+            
+            if(!email.match(EMAIL_REGEX)) { // error case
+                is_error = 'yes';
+                showErrorField('#email_error');
+                errorMessage('#email_error', 'text-danger', 'The email address in not valid');
+                return;
+            }
+
+            if(isEmpty(password)) { // error case
+                is_error = 'yes';
+                showErrorField('#password_error');
+                errorMessage('#password_error', 'text-danger', 'Please enter the password');
+                return;
+            }
+
+            if(password.length < 6) { // error case
+                is_error = 'yes';
+                showErrorField('#password_error');
+                errorMessage('#password_error', 'text-danger', 'Password length should be at least 6 characters');
+                return;
+            }
+
+            if(isEmpty(confirm_password)) { // error case
+                is_error = 'yes';
+                showErrorField('#conf_password_error');
+                errorMessage('#conf_password_error', 'text-danger', 'Please confirm the password');
+                return;
+            }
+
+            if(password !== confirm_password) { // error case
+                is_error = 'yes';
+                showErrorField('#conf_password_error');
+                errorMessage('#conf_password_error', 'text-danger', 'Password and confirm password do not match');
+                return;
+            }
+
+
+            if(is_error == '') {
+                var formData = new FormData(document.getElementById("signupForm"));
+                $.ajax({
+                    url: '/signup_validation/',
+                    type: 'post',
+                    data: formData,
+                    contentType:false,
+                    processData: false,
+                    success: function (data) {
+                        console.log(data.message);
+                        if(data.status !== 1) {
+                            $('#messageContainer').removeClass('d-none').addClass('d-block show alert-danger');
+                            $('#message').addClass('text-danger').html(data.message);
+                            setTimeout(()=>{
+                                $('#messageContainer').removeClass('show d-block show alert-danger').addClass('d-none');
+                                $('.message').removeClass('text-danger').html('');
+                            }, 3000)
+                            return;
+                        }
+                        alert("Successfully registered");
+                        window.location.href = '/login/';
+                    }
+                })
+            }
+        })
+    })
+</script>
+{% endblock %}
